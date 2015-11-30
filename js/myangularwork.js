@@ -7,8 +7,7 @@
 
         // route for the home page
             .when('/home', {
-                templateUrl: 'partial/home.html',
-                controller  : 'myCtrl'
+                templateUrl: 'partial/home.html'
             })
 
             // route for the about page
