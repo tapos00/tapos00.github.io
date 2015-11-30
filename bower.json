@@ -17,6 +17,8 @@
     "angular": "~1.4.8",
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.6",
-    "angular-rangeslider": "~0.0.14"
+    "angular-rangeslider": "~0.0.14",
+    "angular-route": "~1.4.8",
+    "gmaps": "gmaps.js#~0.4.21"
   }
 }

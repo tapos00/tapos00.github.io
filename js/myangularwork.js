@@ -1,33 +1,51 @@
 (function () {
     var cat = {};
-    var app = angular.module("myApp", ['ui-rangeSlider']);
-    app.directive('rangeMaker', function() {
-        return {
-            restrict: 'E',
-            template: '<input  type="text" class="span2" value="" data-slider-min="250" data-slider-max="500" data-slider-step="5" data-slider-value="[250,450]" id="sl2" ><br /> <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>'
-        }
+
+    var app = angular.module("myApp", ['ui-rangeSlider', 'ngRoute','ngMap']);
+    app.config(function ($routeProvider) {
+        $routeProvider
+
+        // route for the home page
+            .when('/home', {
+                templateUrl: 'partial/home.html',
+                controller  : 'myCtrl'
+            })
+
+            // route for the about page
+            .when('/contact', {
+                templateUrl: 'partial/contact.html',
+                controller  : 'contactController'
+
+            })
+            .when('/404', {
+                templateUrl: 'partial/404.html'
+
+            })
+            .when('/blog', {
+                templateUrl: 'partial/blog.html'
+
+            })
+            .when('/login', {
+                templateUrl: 'partial/login.html'
+
+            })
+            .when('/cart', {
+                templateUrl: 'partial/cart.html'
+
+            })
+            .when('/checkout', {
+                templateUrl: 'partial/checkout.html'
+
+            })
+
+            // route for the contact page
+            .otherwise({
+                redirectTo: '/home'
+            });
     });
-    /*app.filter('uniqueCategory', function () {
-        return function (allproduct) {
-            if (angular.isArray(allproduct)) {
-                var cat = {};
-                var catlist = [];
-                angular.forEach(allproduct, function (aproduct) {
-                    var nowcat = aproduct['Categories'];
-                    if (angular.isUndefined(cat[nowcat])) {
-                        cat[nowcat] = true;
-                        catlist.push({name:nowcat});
-                    }
-                });
-                return catlist;
-            }else{
-                return allproduct;
-            }
 
-        }
-    });*/
+    app.controller("myCtrl", ['$scope', '$http','$location', function ($scope, $http,$location) {
 
-    app.controller("myCtrl", ['$scope', '$http', function ($scope, $http) {
         $scope.productList = [];
         $scope.categorories = [];
         $scope.selectpro = null;
@@ -41,25 +59,25 @@
         };
         $http.get('/productlist_latest.json').then(function (response) {
             $scope.productList = response.data;
-            angular.forEach(response.data,function(aproduct){
+            angular.forEach(response.data, function (aproduct) {
                 var nowcat = aproduct['Categories'];
                 var subcat = aproduct['SubCategory'];
                 if (angular.isUndefined(cat[nowcat])) {
                     cat[nowcat] = true;
 
-                    var nowdata ={
-                        name : nowcat,
-                        subcat:[subcat]
+                    var nowdata = {
+                        name: nowcat,
+                        subcat: [subcat]
                     };
-                    if(subcat==""){
+                    if (subcat == "") {
                         nowdata.subcat = [];
                     }
                     $scope.categorories.push(nowdata);
-                }else{
-                    angular.forEach($scope.categorories,function(cat){
+                } else {
+                    angular.forEach($scope.categorories, function (cat) {
 
-                        if(cat['name']==nowcat){
-                            if((cat['subcat']).indexOf(subcat) == -1) {
+                        if (cat['name'] == nowcat) {
+                            if ((cat['subcat']).indexOf(subcat) == -1) {
                                 cat['subcat'].push(subcat);
                             }
                         }
@@ -80,11 +98,21 @@
             return category == $scope.selectpro ? "active" : null;
         };
 
-        $scope.seletedPrice = function(aproduct){
-            if(aproduct.Price>=$scope.demo2.minPrice && aproduct.Price<=$scope.demo2.maxPrice){
+        $scope.seletedPrice = function (aproduct) {
+            if (aproduct.Price >= $scope.demo2.minPrice && aproduct.Price <= $scope.demo2.maxPrice) {
                 return true;
             }
             return false;
         };
+        $scope.isActive = function(route) {
+            return route === $location.path();
+        }
+    }]);
+    app.controller("contactController",['$scope', '$http','NgMap', function ($scope, $http,NgMap){
+        NgMap.getMap().then(function(map) {
+            console.log(map.getCenter());
+            console.log('markers', map.markers);
+            console.log('shapes', map.shapes);
+        });
     }]);
 })();
