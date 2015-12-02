@@ -147,7 +147,7 @@
             $scope.seletedImage = img;
         };
         $scope.selectedinfoPro = function(aproduct){
-            if(aproduct.Categories == $scope.seletedProduct.Categories && aproduct.SubCategory == $scope.seletedProduct.SubCategory){
+            if(aproduct.Categories == $scope.seletedProduct.Categories && aproduct.SubCategory == $scope.seletedProduct.SubCategory && aproduct.ID != $scope.seletedProduct.ID){
                 return true;
             }
             return false;
