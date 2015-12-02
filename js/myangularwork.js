@@ -1,7 +1,7 @@
 (function () {
     var cat = {};
 
-    var app = angular.module("myApp", ['ui-rangeSlider', 'ngRoute','ngMap']);
+    var app = angular.module("myApp", ['ui-rangeSlider', 'ngRoute', 'ngMap']);
     app.config(function ($routeProvider) {
         $routeProvider
 
@@ -13,7 +13,7 @@
             // route for the about page
             .when('/contact', {
                 templateUrl: 'partial/contact.html',
-                controller  : 'contactController'
+                controller: 'contactController'
 
             })
             .when('/404', {
@@ -36,14 +36,29 @@
                 templateUrl: 'partial/checkout.html'
 
             })
+            . when('/product/:productId', {
+                templateUrl: 'partial/single.html',
+                controller: 'ProductDetailCtrl'
+            })
 
             // route for the contact page
             .otherwise({
                 redirectTo: '/home'
             });
     });
+    app.filter("range", function ($filter) {
+        return function (data,page) {
+            console.log(page);
+            if (angular.isArray(data)) {
+                var start_index = page;
+                    return $filter("limitTo")(data.splice(start_index), 3);
+            } else {
+                return data;
+            }
+        }
+    });
 
-    app.controller("myCtrl", ['$scope', '$http','$location', function ($scope, $http,$location) {
+    app.controller("myCtrl", ['$scope', '$http', '$location', function ($scope, $http, $location) {
 
         $scope.productList = [];
         $scope.categorories = [];
@@ -103,15 +118,41 @@
             }
             return false;
         };
-        $scope.isActive = function(route) {
+        $scope.isActive = function (route) {
             return route === $location.path();
         }
     }]);
-    app.controller("contactController",['$scope', '$http','NgMap', function ($scope, $http,NgMap){
-        NgMap.getMap().then(function(map) {
+    app.controller("contactController", ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
+        NgMap.getMap().then(function (map) {
             console.log(map.getCenter());
             console.log('markers', map.markers);
             console.log('shapes', map.shapes);
         });
+    }]);
+    app.controller('ProductDetailCtrl', ['$scope', '$routeParams', function ($scope, $routeParams) {
+        $scope.productID = $routeParams.productId;
+        $scope.seletedProduct = {};
+        $scope.seletedImage = null;
+
+        function getProdutInformation(){
+            angular.forEach($scope.productList, function(aproduct) {
+                if(aproduct.ID == $scope.productID){
+                  //  console.log(aproduct);
+                    $scope.seletedProduct = aproduct;
+                }
+            });
+        }
+        getProdutInformation();
+        $scope.changeImage = function(img){
+            $scope.seletedImage = img;
+        };
+        $scope.selectedinfoPro = function(aproduct){
+            if(aproduct.Categories == $scope.seletedProduct.Categories && aproduct.SubCategory == $scope.seletedProduct.SubCategory){
+                return true;
+            }
+            return false;
+        };
+        $scope.getpage = 1;
+
     }]);
 })();
