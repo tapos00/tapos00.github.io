@@ -29,7 +29,8 @@
 
             })
             .when('/cart', {
-                templateUrl: 'partial/cart.html'
+                templateUrl: 'partial/cart.html',
+                controller: 'CartController'
 
             })
             .when('/checkout', {
@@ -157,5 +158,11 @@
         };
         $scope.getpage = 1;
 
+    }]);
+    app.controller('CartController',['$scope','cart',function($scope,cart){
+        $scope.allproduct = cart.getProducts();
+        $scope.deleteProduct = function(aProduct){
+            cart.removeProduct(aProduct.ID);
+        }
     }]);
 })();

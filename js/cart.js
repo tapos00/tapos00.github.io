@@ -23,7 +23,7 @@ angular.module("cart", [])
                         }
                     }
                     if(!addedToExistingItem){
-                        var aitem = {Title: aproduct.Title,ID:aproduct.ID,Price:aproduct.Price};
+                        var aitem = {Title: aproduct.Title,ID:aproduct.ID,Price:aproduct.Price,images:aproduct.images[0]};
                         if(!comesFromSingle){
                             aitem.count = 1;
                         }else{
@@ -38,6 +38,7 @@ angular.module("cart", [])
                     for (var i = 0; i < cartData.length; i++) {
                         if (cartData[i].ID == id) {
                             cartData.splice(i, 1);
+                            alert("product remove successfully");
                             break;
                         }
                     }
