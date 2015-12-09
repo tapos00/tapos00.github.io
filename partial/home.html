@@ -67,72 +67,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
-                <div class="left-sidebar">
-                    <h2>Category</h2>
-                    <style>
-                        #accordian  h4 { cursor:pointer; }
-                        .active{
-                            background: none !important;
-                            color: #fdb45e !important;
-                        }
-                    </style>
-                    <div class="panel-group category-products" id="accordian"><!--category-productsr-->
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a ng-click="seletedProduct()" data-toggle="collapse" data-parent="#accordian" href="">
-                                        Home
-                                    </a>
-                                </h4>
-                            </div>
-                        </div>
-                        <div class="panel panel-default" ng-repeat="acategory in categorories">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a  ng-attr-data-toggle="{{ acategory.subcat.length > 0 ? 'collapse' : '' }}" ng-attr-data-parent="{{ acategory.subcat.length > 0 ? '#accordian' : '' }}" ng-click="(acategory.subcat.length == 0) && seletedProduct(acategory.name)"  href="#{{acategory.name.split(' ').join('_')}}">
-                                        <span  ng-show="acategory.subcat.length > 0" class="badge pull-right"><i class="fa fa-plus"></i></span>
-                                        {{acategory.name}}
-                                    </a>
-                                </h4>
-                            </div>
-                            <div  ng-attr-id="{{acategory.name.split(' ').join('_')}}" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <ul>
-                                        <li ng-click="seletedProduct(sub)" ng-repeat="sub in acategory.subcat|orderBy:'toString()'"><a href="">{{sub}} </a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div><!--/category-productsr-->
-
-                    <div class="brands_products"><!--brands_products-->
-                        <h2>Brands</h2>
-                        <div class="brands-name">
-                            <ul class="nav nav-pills nav-stacked">
-                                <li><a href="#"> <span class="pull-right">(50)</span>Acne</a></li>
-                                <li><a href="#"> <span class="pull-right">(56)</span>Grüne Erde</a></li>
-                                <li><a href="#"> <span class="pull-right">(27)</span>Albiro</a></li>
-                                <li><a href="#"> <span class="pull-right">(32)</span>Ronhill</a></li>
-                                <li><a href="#"> <span class="pull-right">(5)</span>Oddmolly</a></li>
-                                <li><a href="#"> <span class="pull-right">(9)</span>Boudestijn</a></li>
-                                <li><a href="#"> <span class="pull-right">(4)</span>Rösch creative culture</a></li>
-                            </ul>
-                        </div>
-                    </div><!--/brands_products-->
-
-                    <div class="price-range"><!--price-range-->
-                        <h2>Price Range</h2>
-                        <div class="well">
-                            <div range-slider min="demo2.range.min" max="demo2.range.max" model-min="demo2.minPrice" model-max="demo2.maxPrice" filter="currency:'$'" step="20"></div>
-                            <b>$ {{demo2.minPrice}}</b> <b class="pull-right">$ {{demo2.maxPrice}}</b>
-                        </div>
-                    </div><!--/price-range-->
-
-                    <div class="shipping text-center"><!--shipping-->
-                        <img src="images/home/shipping.jpg" alt="" />
-                    </div><!--/shipping-->
-
-                </div>
+                <left-bar></left-bar>
             </div>
 
             <div class="col-sm-9 padding-right">
@@ -146,14 +81,14 @@
                                     <h2>{{product.Price | currency:'Tk '}}</h2>
                                     <h3>{{product.Categories}}</h3>
                                     <p>{{product.Title}}</p>
-                                    <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                    <button  ng-click="addProductIncart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                 </div>
                                 <div class="product-overlay">
                                     <div class="overlay-content">
                                         <h2>{{product.Price | currency:'Tk '}}</h2>
                                         <p><a href="#/product/{{product.ID}}">{{product.Title}}</a></p>
                                         <h3>{{product.SubCategory}}</h3>
-                                        <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+                                        <button  ng-click="addProductIncart(product)" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
                                     </div>
                                 </div>
                             </div>

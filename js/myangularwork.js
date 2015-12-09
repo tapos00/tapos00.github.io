@@ -1,7 +1,7 @@
 (function () {
     var cat = {};
 
-    var app = angular.module("myApp", ['ui-rangeSlider', 'ngRoute', 'ngMap']);
+    var app = angular.module("myApp", ['ui-rangeSlider', 'ngRoute', 'ngMap','alldirective','cart']);
     app.config(function ($routeProvider) {
         $routeProvider
 
@@ -58,8 +58,7 @@
         }
     });
 
-    app.controller("myCtrl", ['$scope', '$http', '$location', function ($scope, $http, $location) {
-
+    app.controller("myCtrl", ['$scope', '$http', '$location','cart', function ($scope, $http, $location,cart) {
         $scope.productList = [];
         $scope.categorories = [];
         $scope.selectpro = null;
@@ -120,7 +119,11 @@
         };
         $scope.isActive = function (route) {
             return route === $location.path();
-        }
+        };
+
+        $scope.addProductIncart = function(aproduct){
+            cart.addProduct(aproduct);
+        };
     }]);
     app.controller("contactController", ['$scope', '$http', 'NgMap', function ($scope, $http, NgMap) {
         NgMap.getMap().then(function (map) {
