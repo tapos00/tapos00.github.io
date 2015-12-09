@@ -4,17 +4,32 @@ angular.module("cart", [])
             return {
                 addProduct: function (aproduct) {
                     var addedToExistingItem = false;
+                    var comesFromSingle = true;
+                    if(angular.isUndefined(aproduct.count)){
+                        comesFromSingle = false;
+                    }
                     for (var i = 0; i < cartData.length; i++) {
                         if (cartData[i].ID == aproduct.ID) {
-                            cartData[i].count++;
+                            if(comesFromSingle){
+
+                                cartData[i].count += parseInt(aproduct.count);
+                            }else{
+                                cartData[i].count++;
+                            }
+
                             addedToExistingItem = true;
                             alert("product update successfully");
                             break;
                         }
                     }
                     if(!addedToExistingItem){
-                        aproduct.count = 1;
-                        cartData.push(aproduct);
+                        var aitem = {Title: aproduct.Title,ID:aproduct.ID,Price:aproduct.Price};
+                        if(!comesFromSingle){
+                            aitem.count = 1;
+                        }else{
+                            aitem.count = parseInt(aproduct.count);
+                        }
+                        cartData.push(aitem);
                         alert("product insert successfully");
                     }
 

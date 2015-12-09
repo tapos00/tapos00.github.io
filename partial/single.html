@@ -47,8 +47,8 @@
 								<span>
 									<span>US {{seletedProduct.Price}}</span>
 									<label>Quantity:</label>
-									<input type="text" value="3"/>
-									<button type="button" class="btn btn-fefault cart">
+									<input type="text" ng-init="seletedProduct.count=1" ng-model="seletedProduct.count" />
+									<button ng-click="addProductIncart(seletedProduct)" type="button" class="btn btn-fefault cart">
                                         <i class="fa fa-shopping-cart"></i>
                                         Add to cart
                                     </button>
